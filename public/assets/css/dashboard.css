@@ -1,0 +1,12 @@
+html {
+  overflow-y: hidden;
+}
+html, body, body > .page, .off-canvas-wrap {
+  height: 100%;
+}
+.off-canvas-wrap {
+  overflow-y: scroll;
+}
+.inner-wrap {
+  min-height: 100%;
+}
