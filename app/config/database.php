@@ -57,7 +57,7 @@ return array(
 			'host'      => 'localhost',
 			'database'  => 'MAMCORTEZ_QUIZES',
 			'username'  => 'root',
-			'password'  => 'vrigz15mae',
+			'password'  => '',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
