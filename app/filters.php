@@ -107,3 +107,20 @@ Route::filter('student.access', function() {
 	} 
 	
 });
+
+Route::filter('response', function($route, $request, $response) {
+		//The request status is over 300, error, return normal action
+	if ($response->getStatusCode() >= 300) return;
+
+	//Otherwise, if request is an ajax request
+	if ( !( $request->ajax() || $request->wantsJson() || $request->isJson() ) ) {
+
+		//Send proper HTML header
+		$response->headers->set('Content-Type', 'text/html') ;
+
+		//Set the response content to be the home view
+		$response->setContent(View::make('login.index')->render());
+
+		return $response ;
+	}
+});

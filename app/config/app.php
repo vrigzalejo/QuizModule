@@ -120,6 +120,8 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
+		
+		// 3rd parties
 		'Cartalyst\Sentry\SentryServiceProvider',
 		'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider',
 
@@ -188,9 +190,13 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
+		
+		// 3rd parties
 		'Sentry' => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
 		'Countries' => 'Webpatser\Countries\CountriesFacade',
 		'Gravatar' => 'Thomaswelton\LaravelGravatar\Facades\Gravatar',
+		
+		// Models
 		'Level' => 'App\Models\Level',
 		'Question' => 'App\Models\Question',
 		'Quiz' => 'App\Models\Quiz',

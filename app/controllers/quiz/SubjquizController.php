@@ -79,6 +79,9 @@ class SubjquizController extends \BaseController {
 		}
 	}
 	
+	public function postUpdateQuestion() {
+		
+	}
 
 
 	public function postCreateQuiz() {

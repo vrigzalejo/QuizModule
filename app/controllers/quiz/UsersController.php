@@ -9,7 +9,7 @@ class UsersController extends \BaseController {
 	protected $functionController;
 	protected $input;
 	protected $credentials;
-	protected $throttle;
+
 
 	public function __construct(\App\Controllers\Quiz\FunctionController $functionController, Sentry $sentry) {
 		$this->beforeFilter('csrf', ['on'=>'post|put|patch']);
