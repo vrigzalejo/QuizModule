@@ -1,4 +1,5 @@
 <?php
+
 Route::get('/', 'App\Controllers\Quiz\UsersController@getLogin');
 Route::post('/', ['before' => 'csrf', 'uses' => 'App\Controllers\Quiz\UsersController@postLogin']);
 
