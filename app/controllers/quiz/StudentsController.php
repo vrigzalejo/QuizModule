@@ -58,13 +58,13 @@ class StudentsController extends \BaseController {
 				$studentGroup = Sentry::findGroupByName('Student');
 				$user->addGroup($studentGroup);
 
-				$user_id = Sentry::findUserByLogin($credentials["studentno"])->getId();
+				$userId = Sentry::findUserByLogin($credentials["studentno"])->getId();
 				$level = Level::find(Input::get('register_level'))->level;
 				$section = Section::find(Input::get('register_section'))->section;
 
 
 				Student::create([
-					'user_id'	=> $user_id,
+					'user_id'	=> $userId,
 					'email'		=> $credentials["email"],
 					'studentno' => $credentials["studentno"],
 					'lastname'	=> $credentials["last_name"],

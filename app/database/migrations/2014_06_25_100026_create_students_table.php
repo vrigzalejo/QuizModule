@@ -23,7 +23,6 @@ class CreateStudentsTable extends Migration {
 			$table->string('mi');
 			$table->string('level');
 			$table->string('section');
-			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 			$table->timestamps();
 			$table->softDeletes();
 		});

@@ -10,6 +10,16 @@ class User extends \Cartalyst\Sentry\Users\Eloquent\User implements UserInterfac
 		return $this->hasOne('Student', 'user_id', 'id');
 	}
 
+	public static function boot() {
+		parent::boot();
+
+		static::deleting(function($user) {
+			foreach($user->student as $user) {
+				$user->delete();
+			}
+		});
+	}
+
 	/**
 	 * The database table used by the model.
 	 *

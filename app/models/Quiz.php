@@ -11,4 +11,5 @@ class Quiz extends \Basemodel {
 		return $this->belongsToMany('Subjquiz');
 	}
 
+
 }

@@ -41,38 +41,50 @@
 					<img data-ng-src="<% editImage.opt_one.resized.dataURL %>" />
 				</div>
 
-				<input id="imageEdit" data-ng-show="editMode && question.is_img == 1" type="file" accept="image/*" image="editImage.opt_one" resize-max-height="350" resize-max-width="350" resize-quality="1" />
+				<input data-ng-show="editMode && question.is_img == 1" type="file" accept="image/*" image="editImage.opt_one" resize-max-height="350" resize-max-width="350" resize-quality="1" />
 
 			</td>
 			<td>
-				<span data-ng-if="!editMode && question.is_img == 0"><% question.opt_two | cut:true:10:'...' %></span>
+				<span data-ng-hide="editMode || question.is_img == 1"><% question.opt_two | cut:true:10:'...' %></span>
 				<div class="th radius" data-ng-if="!editMode && question.is_img == 1;">
 					<a href="/assets/photos/<% question.opt_two %>" data-lightbox="Option 2" data-title="<% question.opt_two %>"><img data-ng-src="/assets/photos/<% question.opt_two %>" width="50px" height="50px"/></a>
 				</div>
 
-				<textarea data-ng-if="editMode && question.is_img == 0" data-ng-model="question.opt_two" required></textarea>
+				<textarea data-ng-show="editMode && question.is_img == 0" data-ng-model="question.opt_two" required></textarea>
 
-				<input data-ng-if="editMode && question.is_img == 1" type="file" accept="image/*" image="question.opt_two" resize-max-height="350" resize-max-width="350" resize-quality="1" />
+				<div class="th radius" data-ng-show="editImage.opt_two" data-ng-if="editMode && question.is_img == 1">
+					<img data-ng-src="<% editImage.opt_one.resized.dataURL %>" />
+				</div>				
+
+				<input data-ng-show="editMode && question.is_img == 1" type="file" accept="image/*" image="editImage.opt_two" resize-max-height="350" resize-max-width="350" resize-quality="1" />
 			</td>
 			<td>
-				<span data-ng-if="!editMode && question.is_img == 0"><% question.opt_three | cut:true:10:'...' %></span>
+				<span data-ng-hide="editMode || question.is_img == 1"><% question.opt_three | cut:true:10:'...' %></span>
 				<div class="th radius" data-ng-if="!editMode && question.is_img == 1;">
 					<a href="/assets/photos/<% question.opt_three %>" data-lightbox="Option 3" data-title="<% question.opt_three %>"><img data-ng-src="/assets/photos/<% question.opt_three %>" width="50px" height="50px"/></a>
 				</div>
 
-				<textarea data-ng-if="editMode && question.is_img == 0" data-ng-model="question.opt_three" data-ng-required></textarea>
+				<textarea data-ng-show="editMode && question.is_img == 0" data-ng-model="question.opt_three" required></textarea>
 
-				<input data-ng-if="editMode && question.is_img == 1" type="file" accept="image/*" image="question.opt_three" resize-max-height="350" resize-max-width="350" resize-quality="1" />
+				<div class="th radius" data-ng-show="editImage.opt_three" data-ng-if="editMode && question.is_img == 1">
+					<img data-ng-src="<% editImage.opt_three.resized.dataURL %>" />
+				</div>	
+
+				<input data-ng-show="editMode && question.is_img == 1" type="file" accept="image/*" image="editImage.opt_three" resize-max-height="350" resize-max-width="350" resize-quality="1" />
 			</td>
 			<td>
-				<span data-ng-if="!editMode && question.is_img == 0"><% question.opt_four | cut:true:10:'...' %></span>
+				<span data-ng-hide="editMode || question.is_img == 1"><% question.opt_four | cut:true:10:'...' %></span>
 				<div class="th radius" data-ng-if="!editMode && question.is_img == 1;">
 					<a href="/assets/photos/<% question.opt_four %>" data-lightbox="Option 4" data-title="<% question.opt_four %>"><img data-ng-src="/assets/photos/<% question.opt_four %>" width="50px" height="50px"/></a>
 				</div>
 
-				<textarea data-ng-if="editMode && question.is_img == 0" data-ng-model="question.opt_four" data-ng-required></textarea>
+				<textarea data-ng-show="editMode && question.is_img == 0" data-ng-model="question.opt_four" required></textarea>
 
-				<input data-ng-if="editMode && question.is_img == 1" type="file" accept="image/*" image="question.opt_four" resize-max-height="350" resize-max-width="350" resize-quality="1" />
+				<div class="th radius" data-ng-show="editImage.opt_four" data-ng-if="editMode && question.is_img == 1">
+					<img data-ng-src="<% editImage.opt_four.resized.dataURL %>" />
+				</div>	
+
+				<input data-ng-show="editMode && question.is_img == 1" type="file" accept="image/*" image="editImage.opt_four" resize-max-height="350" resize-max-width="350" resize-quality="1" />
 			</td>
 			<td>
 				<span data-ng-hide="editMode || question.is_img == 1;"><% question.answer | cut:true:10:'...' %></span>
@@ -101,7 +113,7 @@
 				<div class="button-bar right">
 					<ul class="button-group">
 						<li>
-							<a class="button success tiny" data-ng-show="editMode" data-ng-click="editMode = false; saveSubject(subject.id, subject.subj_code, subject.subj_description)"><i class="fi-save size-72"></i></a>
+							<a class="button success tiny" data-ng-show="editMode" data-ng-click="editMode = false; saveQuestion(question, editText, editImage)"><i class="fi-save size-72"></i></a>
 						</li>
 						<li>
 							<a class="button tiny" data-ng-hide="editMode" data-ng-click="editMode = true; editQuestion(question)"><i class="fi-clipboard-pencil size-72"></i></a>

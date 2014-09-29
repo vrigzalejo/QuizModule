@@ -13,5 +13,22 @@ class Subject extends \Basemodel {
 	public function question() {
 		return $this->hasMany('Question');
 	}
+
+
+	public static function boot() {
+		parent::boot();
+
+		static::deleting(function($subject) {
+			foreach($subject->question as $question) {
+				$question->delete();
+			}
+		});
+
+		static::deleting(function($subject) {
+			foreach($subject->quiz as $quiz) {
+				$quiz->delete();
+			}
+		});
+	}
 		
 }

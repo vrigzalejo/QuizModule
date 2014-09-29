@@ -92,6 +92,19 @@ angular.module('quizServices',['ngCookies'])
                     '_token':CSRF_TOKEN
                 }
             });
-        }
+        },
+        // update: function(question, answerTextOnly, image) {
+        //     var opt = (question.is_img === 0 ? [question.opt_one, question.opt_two, question.opt_three, question.opt_four, ])
+        //     return $http({
+        //         method: "POST",
+        //         url: "/dashboard/questions/update",
+        //         data: {
+        //             'type_id':question.value,
+        //             'subject_id':question.subj_code,
+        //             'question':question.question,
+        //             'opt_one':(question)
+        //         }
+        //     });
+        // }
     }
 }]);

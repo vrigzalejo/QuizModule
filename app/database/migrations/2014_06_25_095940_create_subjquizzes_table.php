@@ -19,7 +19,6 @@ class CreateSubjquizzesTable extends Migration {
 			$table->integer('subject_id')->unsigned();
 			$table->string('name');
 			$table->text('items');
-			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 			$table->timestamps();
 		});
 	}

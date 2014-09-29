@@ -19,7 +19,6 @@ class CreateQuizzesTable extends Migration {
 			$table->integer('subjquiz_id');
 			$table->text('order');
 			$table->integer('score');
-			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 			$table->timestamps();
 			$table->softDeletes();
 		});

@@ -184,6 +184,18 @@ angular.module('quizControllers',['ngSanitize', 'imageupload'])
             return d.promise;
         }
     }
+
+    // $scope.saveQuestion = function(question, answerTextOnly, image) {
+    //     if(question !== undefined || editText !== undefined || editImage !== undefined) {
+    //         var d = $q.defer();
+    //         Question.update(question, editText, editImage) {
+    //             d.resolve(data);
+    //             if(data.success) {
+    //                 $scope.results = data.message;
+    //             }
+    //         }
+    //     }
+    // }
     
 }])
 .controller('StudentCtrl', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {

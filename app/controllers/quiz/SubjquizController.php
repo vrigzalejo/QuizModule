@@ -4,6 +4,7 @@ use View, Input, HTML, Request, Redirect, Response, Config;
 use App\Models\Subject;
 use App\Models\Subjquiz;
 use App\Models\Question;
+use App\Models\Option;
 
 class SubjquizController extends \BaseController {
 
@@ -64,13 +65,23 @@ class SubjquizController extends \BaseController {
 				$question->type_id 		= $credentials["type_id"];
 				$question->subject_id 	= $credentials["subject_id"];
 				$question->question 	= $credentials["question"];
-				$question->opt_one 		= $credentials["opt_one"];
-				$question->opt_two 		= $credentials["opt_two"];
-				$question->opt_three 	= $credentials["opt_three"];
-				$question->opt_four 	= $credentials["opt_four"];
-				$question->answer 		= $credentials["answer"];
-				$question->is_img 		= $credentials["is_img"];
+				// $question->opt_one 		= $credentials["opt_one"];
+				// $question->opt_two 		= $credentials["opt_two"];
+				// $question->opt_three 	= $credentials["opt_three"];
+				// $question->opt_four 	= $credentials["opt_four"];
+				// $question->answer 		= $credentials["answer"];
+				// $question->is_img 		= $credentials["is_img"];
 				$question->save();
+
+				$option = new Option;
+				$option->question_id = $question->id;
+				$option->opt_one = $credentials["opt_one"];
+				$option->opt_two = $credentials["opt_two"];
+				$option->opt_three = $credentials["opt_three"];
+				$option->opt_four = $credentials["opt_four"];
+				$option->answer = $credentials["answer"];
+				$option->is_img = $credentials["is_img"];
+				$option->save();
 
 				$result = $this->functionController->result(true, 'add_question', '<div data-alert class="alert-box success radius"><i class="fi-check size-72"></i>&nbsp;You have successfully created Question: <b>' . $credentials["question"] . '</b>, Subject: <b>' . Subject::find($credentials["subject_id"])->subj_code . '</b><a href="#" class="close">&times;</a></div>');
 			}

@@ -9,5 +9,15 @@ class Type extends \Basemodel {
 	public function question() {
 		return $this->hasMany('Question');
 	}
+
+	public static function boot() {
+		parent::boot();
+
+		static::deleting(function($type) {
+			foreach($type->quiz as $quiz) {
+				$quiz->delete();
+			}
+		});
+	}
 		
 }

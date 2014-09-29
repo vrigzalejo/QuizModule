@@ -19,13 +19,12 @@ class CreateQuestionsTable extends Migration {
 			$table->integer('type_id')->unsigned();
 			$table->integer('subject_id')->unsigned();
 			$table->text('question');
-			$table->text('opt_one');
-			$table->text('opt_two');
-			$table->text('opt_three');
-			$table->text('opt_four');
-			$table->text('answer');
+			// $table->text('opt_one');
+			// $table->text('opt_two');
+			// $table->text('opt_three');
+			// $table->text('opt_four');
+			// $table->text('answer');
 			$table->boolean('is_img')->default(0);
-			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 			$table->timestamps();
 		});
 	}

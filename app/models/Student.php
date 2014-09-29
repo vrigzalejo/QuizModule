@@ -29,4 +29,14 @@ class Student extends \Basemodel {
 			->where('students.level','=',$getlevel)
 			->get();
 	}
+
+	public static function boot() {
+		parent::boot();
+
+		static::deleting(function($student) {
+			foreach($student->quiz as $quiz) {
+				$quiz->delete();
+			}
+		});
+	}
 }
