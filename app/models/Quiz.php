@@ -1,5 +1,5 @@
 <?php namespace App\Models;
-
+use Subjquiz;
 
 class Quiz extends \Basemodel {
 
@@ -12,4 +12,15 @@ class Quiz extends \Basemodel {
 	}
 
 
+	public static function deleteQuiz($id) {
+		$subjquiz = Subjquiz::find($id);
+		$subjquiz->delete();
+	}
+
+	public static function updateQuiz($credentials = []) {
+		$subject = $credentials["subjquiz_id"];
+		$subject->name = $credentials["name"];
+		$subject->subject_id = $credentials["subject_id"];
+		$subject->save();
+	}
 }

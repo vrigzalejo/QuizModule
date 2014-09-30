@@ -1,6 +1,6 @@
 <?php namespace App\Controllers\Quiz;
 
-use HTML, Response;
+use HTML, Response, File;
 
 class FunctionController extends \BaseController {
 
@@ -66,4 +66,18 @@ class FunctionController extends \BaseController {
 		if($file) return $newName; // Return md5 hash filename			
 	}
 
+	public function deleteImage($credentials = []) {
+		$path = public_path().'/assets/photos/';
+	    
+	    if($credentials["is_img"] == 1){
+	            File::delete(
+	            	$path . $credentials["opt_one"],
+	            	$path . $credentials["opt_two"],
+	            	$path . $credentials["opt_three"],
+	            	$path . $credentials["opt_four"],
+	            	$path . $credentials["answer"]	 
+	            );
+	    }
+	}
 }
+

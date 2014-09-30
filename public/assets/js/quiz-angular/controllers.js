@@ -185,6 +185,25 @@ angular.module('quizControllers',['ngSanitize', 'imageupload'])
         }
     }
 
+    $scope.deleteQuestion = function(question) {
+        conf = window.confirm("Are you sure you want to delete this?");
+        if(conf) {
+            var d = $q.defer();
+            Question.destroy(question).success(function(data, status, header) {
+                d.resolve(data);
+                $scope.results = data.message;
+                $scope.getQuestions();
+                $timeout(function() {$scope.results = '';}, 10000);
+            }).error(function(data, status, header) {
+                d.reject(data);
+                console.log(data);
+            });
+            return d.promise;
+        } else {
+            return false;
+        }
+    }
+
     // $scope.saveQuestion = function(question, answerTextOnly, image) {
     //     if(question !== undefined || editText !== undefined || editImage !== undefined) {
     //         var d = $q.defer();

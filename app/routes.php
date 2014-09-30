@@ -39,6 +39,7 @@ Route::group(['before' => 'sentry.auth'], function() {
 		Route::get('/dashboard/settings', 'App\Controllers\Quiz\SettingsController@getIndex');
 	
 		Route::post('/dashboard/questions', ['before' => 'csrf', 'uses' => 'App\Controllers\Quiz\SubjquizController@postCreateQuestion']);	
+		Route::post('/dashboard/questions/delete', ['before' => 'csrf', 'uses' => 'App\Controllers\Quiz\SubjquizController@postDeleteQuestion']);				
 		Route::post('/dashboard/quizzes', ['before' => 'csrf', 'uses' => 'App\Controllers\Quiz\SubjquizController@postCreateQuiz']);
 		Route::post('/dashboard/quizzes/update', ['before' => 'csrf', 'uses' => 'App\Controllers\Quiz\SubjquizController@postUpdateQuiz']);
 		Route::post('/dashboard/quizzes/delete', ['before' => 'csrf', 'uses' => 'App\Controllers\Quiz\SubjquizController@postDeleteQuiz']);				

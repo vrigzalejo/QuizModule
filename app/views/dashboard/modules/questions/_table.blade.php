@@ -37,11 +37,11 @@
 
 				<textarea data-ng-show="editMode && question.is_img == 0" data-ng-model="question.opt_one" required></textarea>
 
-				<div class="th radius" data-ng-show="editImage.opt_one" data-ng-if="editMode && question.is_img == 1">
+				<!-- <div class="th radius" data-ng-show="editImage.opt_one" data-ng-if="editMode && question.is_img == 1">
 					<img data-ng-src="<% editImage.opt_one.resized.dataURL %>" />
 				</div>
 
-				<input data-ng-show="editMode && question.is_img == 1" type="file" accept="image/*" image="editImage.opt_one" resize-max-height="350" resize-max-width="350" resize-quality="1" />
+				<input data-ng-if="editMode && question.is_img == 1" type="file" accept="image/*" image="editImage.opt_one" resize-max-height="350" resize-max-width="350" resize-quality="1" /> -->
 
 			</td>
 			<td>
@@ -52,11 +52,11 @@
 
 				<textarea data-ng-show="editMode && question.is_img == 0" data-ng-model="question.opt_two" required></textarea>
 
-				<div class="th radius" data-ng-show="editImage.opt_two" data-ng-if="editMode && question.is_img == 1">
+				<!-- <div class="th radius" data-ng-show="editImage.opt_two" data-ng-if="editMode && question.is_img == 1">
 					<img data-ng-src="<% editImage.opt_one.resized.dataURL %>" />
 				</div>				
 
-				<input data-ng-show="editMode && question.is_img == 1" type="file" accept="image/*" image="editImage.opt_two" resize-max-height="350" resize-max-width="350" resize-quality="1" />
+				<input data-ng-if="editMode && question.is_img == 1" type="file" accept="image/*" image="editImage.opt_two" resize-max-height="350" resize-max-width="350" resize-quality="1" /> -->
 			</td>
 			<td>
 				<span data-ng-hide="editMode || question.is_img == 1"><% question.opt_three | cut:true:10:'...' %></span>
@@ -66,11 +66,11 @@
 
 				<textarea data-ng-show="editMode && question.is_img == 0" data-ng-model="question.opt_three" required></textarea>
 
-				<div class="th radius" data-ng-show="editImage.opt_three" data-ng-if="editMode && question.is_img == 1">
+				<!-- <div class="th radius" data-ng-show="editImage.opt_three" data-ng-if="editMode && question.is_img == 1">
 					<img data-ng-src="<% editImage.opt_three.resized.dataURL %>" />
 				</div>	
 
-				<input data-ng-show="editMode && question.is_img == 1" type="file" accept="image/*" image="editImage.opt_three" resize-max-height="350" resize-max-width="350" resize-quality="1" />
+				<input data-ng-if="editMode && question.is_img == 1" type="file" accept="image/*" image="editImage.opt_three" resize-max-height="350" resize-max-width="350" resize-quality="1" /> -->
 			</td>
 			<td>
 				<span data-ng-hide="editMode || question.is_img == 1"><% question.opt_four | cut:true:10:'...' %></span>
@@ -80,11 +80,11 @@
 
 				<textarea data-ng-show="editMode && question.is_img == 0" data-ng-model="question.opt_four" required></textarea>
 
-				<div class="th radius" data-ng-show="editImage.opt_four" data-ng-if="editMode && question.is_img == 1">
+				<!-- <div class="th radius" data-ng-show="editImage.opt_four" data-ng-if="editMode && question.is_img == 1">
 					<img data-ng-src="<% editImage.opt_four.resized.dataURL %>" />
 				</div>	
 
-				<input data-ng-show="editMode && question.is_img == 1" type="file" accept="image/*" image="editImage.opt_four" resize-max-height="350" resize-max-width="350" resize-quality="1" />
+				<input data-ng-if="editMode && question.is_img == 1" type="file" accept="image/*" image="editImage.opt_four" resize-max-height="350" resize-max-width="350" resize-quality="1" /> -->
 			</td>
 			<td>
 				<span data-ng-hide="editMode || question.is_img == 1;"><% question.answer | cut:true:10:'...' %></span>
@@ -92,34 +92,34 @@
 					<a href="/assets/photos/<% question.answer %>" data-lightbox="Answer" data-title="<% question.answer %>"><img data-ng-src="/assets/photos/<% question.answer %>" width="50px" height="50px"/></a>
 				</div>
 
-				<label data-ng-if="editMode">			 
-					<input type="radio" data-ng-model="editText.question_ans" value="<% question.opt_one %>" data-ng-if="question.is_img == 0;"/>
-					<input type="radio" data-ng-model="editImage.question_ans" value="<% editImage.opt_one.resized.dataURL %>" data-ng-if="question.is_img == 1;"/>&nbsp;1&nbsp;
+				<label data-ng-show="editMode">			 
+					<input type="radio" data-ng-model="editText.question_ans" value="<% question.opt_one %>" data-ng-show="question.is_img == 0;"/>
+					<!-- <input type="radio" data-ng-model="editImage.question_ans" value="<% editImage.opt_one.resized.dataURL %>" data-ng-show="question.is_img == 1;"/> -->&nbsp;1&nbsp;
 				</label>
-				<label data-ng-if="editMode">
-					<input type="radio" data-ng-model="editText.question_ans" value="<% question.opt_two %>" data-ng-if="question.is_img == 0;"/>
-					<input type="radio" data-ng-model="editImage.question_ans" value="<% editImage.opt_two.resized.dataURL %>" data-ng-if="question.is_img == 1;"/>&nbsp;2&nbsp;
+				<label data-ng-show="editMode">
+					<input type="radio" data-ng-model="editText.question_ans" value="<% question.opt_two %>" data-ng-show="question.is_img == 0;"/>
+					<!-- <input type="radio" data-ng-model="editImage.question_ans" value="<% editImage.opt_two.resized.dataURL %>" data-ng-show="question.is_img == 1;"/> -->&nbsp;2&nbsp;
 				</label>
-				<label data-ng-if="editMode">
-					<input type="radio" data-ng-model="editText.question_ans" value="<% question.opt_three %>" data-ng-if="question.is_img == 0;"/>
-					<input type="radio" data-ng-model="editImage.question_ans" value="<% editImage.opt_three.resized.dataURL %>" data-ng-if="question.is_img == 1;"/>&nbsp;3&nbsp;
+				<label data-ng-show="editMode">
+					<input type="radio" data-ng-model="editText.question_ans" value="<% question.opt_three %>" data-ng-show="question.is_img == 0;"/>
+					<!-- <input type="radio" data-ng-model="editImage.question_ans" value="<% editImage.opt_three.resized.dataURL %>" data-ng-show="question.is_img == 1;"/> -->&nbsp;3&nbsp;
 				</label>
-				<label data-ng-if="editMode">
-					<input type="radio" data-ng-model="editText.question_ans" value="<% question.opt_four %>" data-ng-if="question.is_img == 0;"/>
-					<input type="radio" data-ng-model="editImage.question_ans" value="<% editImage.opt_four.resized.dataURL %>" data-ng-if="question.is_img == 1;"/>&nbsp;4&nbsp;
+				<label data-ng-show="editMode">
+					<input type="radio" data-ng-model="editText.question_ans" value="<% question.opt_four %>" data-ng-show="question.is_img == 0;"/>
+					<!-- <input type="radio" data-ng-model="editImage.question_ans" value="<% editImage.opt_four.resized.dataURL %>" data-ng-show="question.is_img == 1;"/> -->&nbsp;4&nbsp;
 				</label>
 			</td>
 			<td>
 				<div class="button-bar right">
 					<ul class="button-group">
 						<li>
-							<a class="button success tiny" data-ng-show="editMode" data-ng-click="editMode = false; saveQuestion(question, editText, editImage)"><i class="fi-save size-72"></i></a>
+							<a class="button success tiny" data-ng-show="editMode && question.is_img == 0" data-ng-click="editMode = false; saveQuestion(question, editText)"><i class="fi-save size-72"></i></a>
 						</li>
 						<li>
-							<a class="button tiny" data-ng-hide="editMode" data-ng-click="editMode = true; editQuestion(question)"><i class="fi-clipboard-pencil size-72"></i></a>
+							<a class="button tiny" data-ng-hide="editMode || question.is_img == 1" data-ng-click="editMode = true; editQuestion(question)"><i class="fi-clipboard-pencil size-72"></i></a>
 						</li>
 						<li>
-							<a class="button alert tiny" data-ng-click="deleteSubject(subject.id)"><i class="fi-trash size-72"></i></a>
+							<a class="button alert tiny" data-ng-click="deleteQuestion(question)"><i class="fi-trash size-72"></i></a>
 						</li>
 						<li>
 							<a class="button alert tiny" data-ng-show="editMode" data-ng-click="editMode = false; editImage = undefined;"><i class="fi-x size-72"></i></a>

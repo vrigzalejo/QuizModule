@@ -1,6 +1,5 @@
 <?php namespace App\Models;
 
-
 class Subject extends \Basemodel {
 
 	protected $fillable = ['subj_code', 'subj_description'];
@@ -12,6 +11,19 @@ class Subject extends \Basemodel {
 
 	public function question() {
 		return $this->hasMany('Question');
+	}
+
+
+	public static function deleteSubject($credentials = []) {
+		$subject = static::find($credentials["id"]);
+		$subject->delete();
+	}
+
+	public static function updateSubject($credentials = []) {
+		$subject = $credentials["subj_id"];
+		$subject->subj_code = $credentials["subj_code"];
+		$subject->subj_description = $credentials["subj_description"];
+		$subject->save();
 	}
 
 

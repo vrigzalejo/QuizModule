@@ -93,6 +93,37 @@ angular.module('quizServices',['ngCookies'])
                 }
             });
         },
+        destroy: function(question) {
+            switch(question.is_img) {
+                case '1':
+                    return $http({
+                        method: "POST",
+                        url: "/dashboard/questions/delete",
+                        data: {
+                            'id':question.id, 
+                            'opt_one':question.opt_one,
+                            'opt_two':question.opt_two,
+                            'opt_three':question.opt_three,
+                            'opt_four':question.opt_four,
+                            'answer':question.answer,
+                            'is_img':question.is_img,
+                            '_token':CSRF_TOKEN
+                        }
+                    });  
+                    break;
+                default:
+                    return $http({
+                        method: "POST",
+                        url: "/dashboard/questions/delete",
+                        data: {
+                            'id':question.id, 
+                            'is_img':question.is_img,                            
+                            '_token':CSRF_TOKEN
+                        }
+                    }); 
+            }
+
+        }
         // update: function(question, answerTextOnly, image) {
         //     var opt = (question.is_img === 0 ? [question.opt_one, question.opt_two, question.opt_three, question.opt_four, ])
         //     return $http({

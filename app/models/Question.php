@@ -1,4 +1,5 @@
 <?php namespace App\Models;
+use Option;
 
 class Question extends \Basemodel {
 
@@ -20,21 +21,14 @@ class Question extends \Basemodel {
 			'subjects.id','subjects.subj_code','subjects.subj_description',
 			'questions.id',
 			'questions.question',
-			// 'questions.opt_one',
-			// 'questions.opt_two',
-			// 'questions.opt_three',
-			// 'questions.opt_four',
-			// 'questions.answer',
 			'questions.created_at as questions_created',
 			'questions.updated_at as questions_updated',
-			// 'questions.deleted_at as question_deleted',
 			'options.opt_one',
 			'options.opt_two',
 			'options.opt_three',
 			'options.opt_four',
 			'options.answer',
 			'options.is_img',
-			// 'options.is_option',
 			'options.created_at',
 			'options.updated_at'
 			// 'options.deleted_at'
@@ -44,6 +38,30 @@ class Question extends \Basemodel {
 			->leftJoin('subjects','questions.subject_id','=','subjects.id')
 			->get();
 	}	
+
+	public static function createQuestion($credentials = []) {
+		$question = new Question;
+		$question->user_id 		= $credentials["user_id"];
+		$question->type_id 		= $credentials["type_id"];
+		$question->subject_id 	= $credentials["subject_id"];
+		$question->question 	= $credentials["question"];
+		$question->save();
+
+		$option = new Option;
+		$option->question_id = $question->id;
+		$option->opt_one = $credentials["opt_one"];
+		$option->opt_two = $credentials["opt_two"];
+		$option->opt_three = $credentials["opt_three"];
+		$option->opt_four = $credentials["opt_four"];
+		$option->answer = $credentials["answer"];
+		$option->is_img = $credentials["is_img"];
+		$option->save();
+	}
+
+	public static function deleteQuestion($id) {
+		$question = Question::find($id);
+		$question->delete();
+	}
 
 	public static function boot() {
 		parent::boot();

@@ -1,10 +1,11 @@
 <?php namespace App\Controllers\Quiz;
 
-use View, Input, HTML, Request, Redirect, Response, Config;
+use View, Input, HTML, Request, Redirect, Response, Config, Sentry;
 use App\Models\Subject;
 use App\Models\Subjquiz;
 use App\Models\Question;
 use App\Models\Option;
+use App\Models\Quiz;
 
 class SubjquizController extends \BaseController {
 
@@ -50,6 +51,7 @@ class SubjquizController extends \BaseController {
 			if($validation->fails()) {
 				$result = $this->functionController->result(false, 'add_question', $validation->getMessageBag()->toArray());
 			} else {
+				$credentials["user_id"] = Sentry::getUser()->id;
 				$credentials["type_id"] = HTML::entities($input["type_id"]);
 				$credentials["subject_id"] = HTML::entities($input["subject_id"]);
 				$credentials["question"] = HTML::entities($input["question"]);
@@ -61,27 +63,7 @@ class SubjquizController extends \BaseController {
 				$credentials["is_img"] = $input["is_img"];
 
 
-				$question = new Question;
-				$question->type_id 		= $credentials["type_id"];
-				$question->subject_id 	= $credentials["subject_id"];
-				$question->question 	= $credentials["question"];
-				// $question->opt_one 		= $credentials["opt_one"];
-				// $question->opt_two 		= $credentials["opt_two"];
-				// $question->opt_three 	= $credentials["opt_three"];
-				// $question->opt_four 	= $credentials["opt_four"];
-				// $question->answer 		= $credentials["answer"];
-				// $question->is_img 		= $credentials["is_img"];
-				$question->save();
-
-				$option = new Option;
-				$option->question_id = $question->id;
-				$option->opt_one = $credentials["opt_one"];
-				$option->opt_two = $credentials["opt_two"];
-				$option->opt_three = $credentials["opt_three"];
-				$option->opt_four = $credentials["opt_four"];
-				$option->answer = $credentials["answer"];
-				$option->is_img = $credentials["is_img"];
-				$option->save();
+				Question::createQuestion($credentials);
 
 				$result = $this->functionController->result(true, 'add_question', '<div data-alert class="alert-box success radius"><i class="fi-check size-72"></i>&nbsp;You have successfully created Question: <b>' . $credentials["question"] . '</b>, Subject: <b>' . Subject::find($credentials["subject_id"])->subj_code . '</b><a href="#" class="close">&times;</a></div>');
 			}
@@ -92,6 +74,34 @@ class SubjquizController extends \BaseController {
 	
 	public function postUpdateQuestion() {
 		
+	}
+
+	public function postDeleteQuestion() {
+		if(Request::ajax() || Request::wantsJson() || Request::isJson()) {
+			$input = $this->input;
+			var_dump($input);
+			$credentials = $this->credentials;
+			
+			$credentials["id"] = HTML::entities($input["id"]);
+			$credentials["opt_one"] = $input["is_img"] == 1 ? HTML::entities($input["opt_one"]) : NULL;
+			$credentials["opt_two"] = $input["is_img"] == 1 ? HTML::entities($input["opt_two"]) : NULL;
+			$credentials["opt_three"] = $input["is_img"] == 1 ? HTML::entities($input["opt_three"]) : NULL;
+			$credentials["opt_four"] = $input["is_img"] == 1 ? HTML::entities($input["opt_four"]) : NULL;
+			$credentials["answer"] = $input["is_img"] == 1 ? HTML::entities($input["answer"]) : NULL;
+			$credentials["is_img"] = HTML::entities($input["is_img"]);
+
+
+			Question::deleteQuestion($credentials["id"]);
+			$this->functionController->deleteImage($credentials);
+
+			// $subjquiz = Question::find($credentials["id"]);
+			// $subjquiz->delete();
+
+			$result = $this->functionController->result(true, 'delete_subject', '<div data-alert class="alert-box success radius"><i class="fi-check size-72"></i>&nbsp;You have successfully deleted a Quiz. <a href="#" class="close">&times;</a></div>');
+
+			return $this->functionController->response($result);
+
+		}
 	}
 
 
@@ -110,10 +120,12 @@ class SubjquizController extends \BaseController {
 			if($validation->fails()) {
 				$result = $this->functionController->result(false, 'add_quiz', $validation->getMessageBag()->toArray());
 			} else {
+				$credentials["user_id"] = Sentry::getUser()->id;
 				$credentials["name"] = HTML::entities($input["add_quiz_name"]);
 				$credentials["subject_id"] = HTML::entities($input["add_quiz_subject"]);
 
 				Subjquiz::create([
+					'user_id'		=> $credentials["user_id"],
 					'name'			=> $credentials["name"],
 					'subject_id'  	=> $credentials["subject_id"]
 				]);
@@ -125,6 +137,8 @@ class SubjquizController extends \BaseController {
 		}
 
 	}
+
+
 
 	public function postUpdateQuiz() {
 
@@ -142,13 +156,12 @@ class SubjquizController extends \BaseController {
 				$result = $this->functionController->result(false, 'update_quiz', $validation->getMessageBag()->toArray());
 			} else {		
 				$credentials["name"] = HTML::entities($input["subjquiz_name"]);
-				$subjectSelected = Subject::where('subj_code','=', HTML::entities($input["subjquiz_subject"]))->first();
+					$subjectSelected = Subject::where('subj_code','=', HTML::entities($input["subjquiz_subject"]))->first();
 				$credentials["subject_id"] = $subjectSelected->id;
-			
-				$subject = Subjquiz::find($input["subjquiz_id"]);
-				$subject->name = $credentials["name"];
-				$subject->subject_id = $credentials["subject_id"];
-				$subject->save();
+				$credentials["subjquiz_id"] = HTML::entities($input["subjquiz_id"]);
+
+				Quiz::updateQuiz($credentials);
+
 
 				$result = $this->functionController->result(true, 'update_quiz', '<div data-alert class="alert-box success radius"><i class="fi-check size-72"></i>&nbsp;You have successfully updated Quiz Name: <b>' . $credentials["name"] . '</b>, Subject: <b>' . $subjectSelected->subj_code . '</b><a href="#" class="close">&times;</a></div>');
 
@@ -161,10 +174,8 @@ class SubjquizController extends \BaseController {
 	public function postDeleteQuiz() {
 		if(Request::ajax() || Request::wantsJson() || Request::isJson()) {
 			$input = $this->input;
-			$credentials = $this->credentials;
-			$credentials["id"] = HTML::entities($input["subjquiz_id"]);
-			$subjquiz = Subjquiz::find($credentials["id"]);
-			$subjquiz->delete();
+
+			Quiz::deleteQuiz(HTML::entities($input["subjquiz_id"]));
 
 			$result = $this->functionController->result(true, 'delete_subject', '<div data-alert class="alert-box success radius"><i class="fi-check size-72"></i>&nbsp;You have successfully deleted a Quiz. <a href="#" class="close">&times;</a></div>');
 
@@ -221,11 +232,9 @@ class SubjquizController extends \BaseController {
 			} else {		
 				$credentials["subj_code"] = HTML::entities(strtoupper($input["subj_code"]));
 				$credentials["subj_description"] = HTML::entities($input["subj_description"]);
-			
-				$subject = Subject::find($input["subj_id"]);
-				$subject->subj_code = $credentials["subj_code"];
-				$subject->subj_description = $credentials["subj_description"];
-				$subject->save();
+				$credentials["subj_id"] = HTML::entities($input["subj_id"]);
+
+				Subject::updateSubject($credentials);
 
 				$result = $this->functionController->result(true, 'update_subject', '<div data-alert class="alert-box success radius"><i class="fi-check size-72"></i>&nbsp;You have successfully updated Subject Code: <b>' . $credentials["subj_code"] . '</b>, Description: <b>' . $credentials["subj_description"] . '</b><a href="#" class="close">&times;</a></div>');
 
@@ -241,8 +250,8 @@ class SubjquizController extends \BaseController {
 			$credentials = $this->credentials;
 
 			$credentials["id"] = HTML::entities($input["subj_id"]);
-			$subject = Subject::find($credentials["id"]);
-			$subject->delete();
+
+			Subject::deleteSubject($credentials);
 
 			$result = $this->functionController->result(true, 'delete_subject', '<div data-alert class="alert-box success radius"><i class="fi-check size-72"></i>&nbsp;You have successfully deleted a subject.</div>');
 
