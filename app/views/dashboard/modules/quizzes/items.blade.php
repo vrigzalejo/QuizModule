@@ -6,14 +6,9 @@
 
 
 @section('module.contents')
-<div class="row" style="padding-top:1em;" data-ng-controller="QuizzesCtrl">
-<div class="row">
-	<div class="small-4 medium-2 large-2 small-centered large-centered medium-centered columns">
-		<toggle-create caption="Quiz" toggled="showAddQuiz"></toggle-create>
-	</div>
-</div>
+<div class="row" style="padding-top:1em;" data-ng-controller="ItemsCtrl" data-ng-init="getQuestions({{{ $subjquiz->subject_id }}}); getItems({{{ $subjquiz->subject_id }}}, {{{ $subjquiz->id }}});">
 
-@if(Session::has('message') && Session::get('for') === 'add_quiz')
+@if(Session::has('message') && Session::get('for') === 'add_item')
  <div class="row">
  	<div class="small-12 medium-6 large-6 large-centered medium-centered columns">{{ Session::get('message') }}
 	</div>
@@ -27,9 +22,9 @@
   </div>
  @endforeach
 
-@include('dashboard.modules.quizzes._form_create')
+@include('dashboard.modules.quizzes._form_items_create')
 
-    <search model="subjquizzes" filter="search"></search>
+    <search model="items" filter="search"></search>
 	<div data-ng-show="edit >= 0">
 	  <div class="row">
 		<div data-ng-bind-html="results" class="small-12 medium-6 large-6 large-centered medium-centered columns">
@@ -37,7 +32,7 @@
 	  </div>
 	</div>
 
-@include('dashboard.modules.quizzes._table')
+@include('dashboard.modules.quizzes._table_items')
 	<!-- <div pagination="results"></div> -->
 </div>
 @stop

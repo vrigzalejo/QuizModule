@@ -1,0 +1,130 @@
+angular.module('quizDirectives',[])
+// Directives
+.directive('loadBubble', function() {
+    return {
+        restrict: 'E',
+        replace: true,
+        scope: {
+            model: '=',
+            rootScopeModel: '='
+        },
+        templateUrl: '/assets/js/quiz-angular/templates/_load-bubble.html'
+    };
+})
+.directive('createSubjectsLink', function() {
+    return {
+        restrict: 'E',
+        replace: true,
+        scope: {
+            model: '=',
+        },
+        templateUrl:'/assets/js/quiz-angular/templates/_create-subjects-link.html'
+    };
+})
+.directive('noRecordsRow', function() {
+    return {
+        restrict: 'E',
+        replace: true,
+        scope: {
+            model: '=',
+            caption: '@?',
+        },
+        controller: function($scope) {
+            $scope.caption = $scope.caption || 'Records';
+        },
+        templateUrl:'/assets/js/quiz-angular/templates/_no-records-row.html'
+    };
+})
+.directive('createTypesLink', function() {
+    return {
+        restrict: 'E',
+        replace: true,
+        scope: {
+            model: '='
+        },
+        templateUrl:'/assets/js/quiz-angular/templates/_create-types-link.html'
+    };
+})
+.directive('toggleCreate', function() {
+    return {
+        restrict: 'EA',
+        scope: {
+            caption: '@?',
+            toggled: '=',
+        },
+        replace: true,
+        controller: function($scope) {
+            $scope.caption = $scope.caption || 'Data';
+        },
+        templateUrl:'/assets/js/quiz-angular/templates/_toggle-create.html',
+        link: function(scope) {
+            scope.toggle = function() {
+                scope.toggled = !scope.toggled;
+            }
+        }
+    };
+})
+.directive('addResetCancel', function() {
+    return {
+        restrict: 'EA',
+        scope: {
+            toggled: '='
+        },
+        replace: true,
+        templateUrl:'/assets/js/quiz-angular/templates/_add-reset-cancel.html',
+        link: function(scope) {
+            scope.toggle = function() {
+                scope.toggled = !scope.toggled;
+            }
+        }
+    };
+})
+.directive('search', function() {
+    return {
+        restrict: 'E',
+        replace: true,
+        scope: {
+            model: '=',
+            filter: '=?'
+        },
+        conroller: function($scope){
+            $scope.filter = $scope.filter || 'search';
+        },
+        templateUrl:'/assets/js/quiz-angular/templates/_search.html'
+    };
+});
+/*
+.directive('update-delete', function() {
+    return {
+        restrict: 'EA',
+        scope: {
+            updateFunc: '&',
+            deleteFunc: '&',
+            model: '=',
+            alias: '=',
+            edit: '=?'
+        },
+        template: '<div class="button-bar right">' +
+                '<ul class="button-group">' +
+                    '<li>' +
+                        '<a class="button success tiny" data-ng-show="editMode" data-ng-click="editMode = false; updateFunc"><i class="fi-save size-72"></i></a>' +
+                    '</li>' +
+                    '<li>' +
+                        '<a class="button tiny" data-ng-hide="editMode" data-ng-click="editMode = true; editData(alias)"><i class="fi-clipboard-pencil size-72"></i></a>' +
+                    '</li>' +
+                    '<li>' +
+                        '<a class="button alert tiny" data-ng-click="deleteFunc"><i class="fi-trash size-72"></i></a>' +
+                    '</li>' +
+                    '<li>' +
+                        '<a class="button alert tiny" data-ng-show="editMode" data-ng-click="editMode = false;"><i class="fi-x size-72"></i></a>' +
+                    '</li>' +
+                '</ul>' +
+            '</div>',
+        link: function(scope) {
+            scope.editData = function(alias) {
+                scope.edit = scope.model.indexOf(alias);
+            }          
+        }
+    };
+}); 
+*/

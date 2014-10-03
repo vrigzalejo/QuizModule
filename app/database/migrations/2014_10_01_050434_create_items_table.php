@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSubjquizzesTable extends Migration {
+class CreateItemsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,13 +12,11 @@ class CreateSubjquizzesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('subjquizzes', function(Blueprint $table)
+		Schema::create('items', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->bigInteger('user_id')->unsigned()->index();
-			$table->integer('subject_id')->unsigned();
-			$table->string('name');
-			// $table->text('items');
+			$table->bigInteger('subjquiz_id')->unsigned();
+			$table->bigInteger('question_id')->unsigned();
 			$table->timestamps();
 		});
 	}
@@ -30,7 +28,7 @@ class CreateSubjquizzesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('subjquizzes');
+		Schema::drop('items');
 	}
 
 }

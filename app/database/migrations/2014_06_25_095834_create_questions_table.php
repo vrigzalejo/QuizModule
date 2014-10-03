@@ -24,7 +24,7 @@ class CreateQuestionsTable extends Migration {
 			// $table->text('opt_three');
 			// $table->text('opt_four');
 			// $table->text('answer');
-			$table->boolean('is_img')->default(0);
+			// $table->boolean('is_img')->default(0);
 			$table->timestamps();
 		});
 	}

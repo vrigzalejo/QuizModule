@@ -206,6 +206,7 @@ return array(
 		'Subjquiz' => 'App\Models\Subjquiz',
 		'Type' => 'App\Models\Type',
 		'Option' => 'App\Models\Option',
+		'Item' => 'App\Models\Item',
 	),
 
 );

@@ -14,6 +14,10 @@ class Subject extends \Basemodel {
 	}
 
 
+	public function subjquiz() {
+		return $this->hasMany('Subjquiz');
+	}
+
 	public static function deleteSubject($credentials = []) {
 		$subject = static::find($credentials["id"]);
 		$subject->delete();

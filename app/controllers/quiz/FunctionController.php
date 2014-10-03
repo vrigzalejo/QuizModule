@@ -74,8 +74,7 @@ class FunctionController extends \BaseController {
 	            	$path . $credentials["opt_one"],
 	            	$path . $credentials["opt_two"],
 	            	$path . $credentials["opt_three"],
-	            	$path . $credentials["opt_four"],
-	            	$path . $credentials["answer"]	 
+	            	$path . $credentials["opt_four"]	 
 	            );
 	    }
 	}

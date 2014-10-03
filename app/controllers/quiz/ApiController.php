@@ -6,6 +6,8 @@ use App\Models\Subject;
 use App\Models\Type;
 use App\Models\Subjquiz;
 use App\Models\Question;
+use App\Models\Item;
+use App\Models\Quiz;
 //use Response;
 
 class ApiController extends \BaseController {
@@ -30,6 +32,10 @@ class ApiController extends \BaseController {
 		return Subject::all();
 	}
 
+	public function getTakeAQuiz() {
+		return Quiz::takeAQuiz();
+	}
+
 	public function getApiSubjquizAll() {
 		return Subjquiz::subjquizAll();
 	}
@@ -38,4 +44,11 @@ class ApiController extends \BaseController {
 		return Question::questionAll();
 	}
 
+	public function getApiItem($sid, $id) {
+		return Item::itemsBySubjquiz($sid, $id);
+	}
+
+	public function getApiQuestionBySubject($sid) {
+		return Question::questionsBySubject($sid);
+	}
 }

@@ -204,18 +204,124 @@ angular.module('quizControllers',['ngSanitize', 'imageupload'])
         }
     }
 
-    // $scope.saveQuestion = function(question, answerTextOnly, image) {
-    //     if(question !== undefined || editText !== undefined || editImage !== undefined) {
-    //         var d = $q.defer();
-    //         Question.update(question, editText, editImage) {
-    //             d.resolve(data);
-    //             if(data.success) {
-    //                 $scope.results = data.message;
-    //             }
-    //         }
-    //     }
-    // }
+    $scope.saveQuestion = function(question, editText) {       
+        var d = $q.defer();
+        Question.update(question, editText).success(function(data, status, header) {
+            d.resolve(data);
+            if(data.success){
+                $scope.getQuestions();
+                $scope.results = data.message;
+            } else {
+                var errors = [
+                    data.message.type_id, 
+                    data.message.subject_id, 
+                    data.message.question, 
+                    data.message.opt_one, 
+                    data.message.opt_two,
+                    data.message.opt_three,
+                    data.message.opt_four,
+                    data.message.answer
+                ];
+                for(var i=0;errors.length > i;i++) {
+                    $scope.results = '<div data-alert class="alert-box alert radius"><i class="fi-alert size-72"></i>&nbsp;<b>' + errors.join('&nbsp;') + '</b><a href="#" class="close">&times;</a></div>';
+                }                       
+            }                                  
+            $timeout(function() {$scope.results = '';}, 10000);
+        }).error(function(data, status, header) {
+            d.reject(data);
+            console.log(data);
+        });
+        return d.promise;
+    }
+
     
+}])
+.controller('ItemsCtrl', ['Question', 'Item', '$scope', '$rootScope', '$http', '$q', '$timeout', function(Question, Item, $scope, $rootScope, $http, $q, $timeout) {
+    $rootScope.loadItems = true;
+    $rootScope.loadQuestions = true;
+  
+    $scope.getItems = function(sid, id) {
+        Item.get(sid, id).success(function(data) {
+            $scope.items = data;
+            $scope.items.length > 0 ? $scope.itemsAvailable = true : $scope.itemsAvailable = false;
+            $rootScope.loadItems = false;
+        });  
+    }
+
+    $scope.getQuestions = function(id) {
+        Question.getBySubject(id).success(function(data) {
+            $scope.questions = data;
+            $scope.questions.length > 0 ? $scope.questionsAvailable = true : $scope.questionsAvailable = false;
+            $rootScope.loadQuestions = false;
+
+        });   
+    }
+
+
+
+    $scope.createItem = function(question_id, subjquiz_id, subject_id) {
+        var d = $q.defer();
+        Item.create(question_id, subjquiz_id, subject_id).success(function(data, status, header) {
+            d.resolve(data);
+            if(data.success){
+                $scope.getItems(subject_id, subjquiz_id);                    
+                $scope.showAddSubject = !$scope.showAddSubject;
+                $scope.results = data.message;
+            } else {
+                var errors = [data.message.subjquiz_id, data.message.question_id];
+                for(var i=0;errors.length > i;i++) {
+                    $scope.results = '<div data-alert class="alert-box alert radius"><i class="fi-alert size-72"></i>&nbsp;<b>' + errors.join('&nbsp;') + '</b><a href="#" class="close">&times;</a></div>';
+                }                 
+            }    
+            console.log(data);                           
+            $timeout(function() {$scope.results = '';}, 10000);
+        }).error(function(data, status, header) {
+            d.reject(data);
+            console.log(data);
+        });
+        return d.promise;
+    }
+
+    $scope.deleteItem = function(id, subject_id, subjquiz_id) {
+        conf = window.confirm("Are you sure you want to delete this?");
+        if(conf) {
+            var d = $q.defer();
+            Item.destroy(id).success(function(data, status, header) {
+                d.resolve(data);
+                $scope.results = data.message;
+                $scope.getItems(subject_id, subjquiz_id);
+                $timeout(function() {$scope.results = '';}, 10000);
+            }).error(function(data, status, header) {
+                d.reject(data);
+                console.log(data);
+            });
+            return d.promise;
+        } else {
+            return false;
+        }
+    }
+
+    // $scope.getQuestionsBySubject = function(id) {
+    //     Question.getBySubject(id).success(function(data) {
+    //     for(var i=0; i<data.length;i++) {
+    //         data[i].created_at = new Date(data[i].created_at.replace(/-/g,"/"));
+    //         data[i].updated_at = new Date(data[i].updated_at.replace(/-/g,"/"));
+    //     }
+
+    //     $scope.questions = data;
+    //     $rootScope.loadQuestions = false;
+    //     });
+    // }
+
+}])
+.controller('TakeAQuizCtrl', ['TakeAQuiz', '$scope', '$rootScope', '$http', function(TakeAQuiz, $scope, $rootScope, $http) {
+    $rootScope.loadQuizzes = true;
+    $scope.getTakeAQuiz = function() {
+        TakeAQuiz.get().success(function(data) {
+            $scope.takeaquiz = data;
+            $rootScope.loadQuizzes = false;
+        });
+    }
 }])
 .controller('StudentCtrl', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
     $scope.showRegister = false;

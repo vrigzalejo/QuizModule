@@ -3,7 +3,7 @@
     <tr>
       <th><a data-ng-click="predicate='name';reverse=!reverse">Quiz Name</a></th>
       <th><a data-ng-click="predicate='subj_code';reverse=!reverse">Subject</a></th>
-      <th>Items</th>
+      <th><a data-ng-click="predicate='subjquiz_items';reverse=!reverse">Items</a></th>
       <th>Taken</th>
       <th><a data-ng-click="predicate='created_at';reverse=!reverse">Created</a></th>
       <th><a data-ng-click="predicate='updated_at';reverse=!reverse">Updated</a></th>
@@ -13,26 +13,28 @@
   <tbody data-ng-repeat="subjquiz in (subjquizzes | filter:search | orderBy:predicate:reverse)">
     <tr>
       <td>
-	      <span data-ng-hide="editMode"><% subjquiz.name %></span>
+      <a data-ng-hide="editMode" href="/dashboard/quizzes/<% subjquiz.id %>">
+	      <span><% subjquiz.name %></span>
+      </a>
 	      <input type="text" data-ng-show="editMode" data-ng-model="subjquiz.name" data-ng-required />
       </td>
       <td>
-      	<span data-ng-show="subjquiz.subj_code == NULL">No Subject</span>
+      	<span data-ng-if="subjquiz.subj_code == NULL">No Subject</span>
       	<span data-ng-hide="editMode"><% subjquiz.subj_code %></span>
 		<select data-ng-show="editMode" data-ng-model="subjquiz.subj_code" data-ng-options="subject.subj_code as subject.subj_code for subject in subjects">
 		</select>
       </td>
       <td>
-      	<span data-ng-hide="subjquiz.items.length <= 0">No Items</span>
-      	<span data-ng-show="subjquiz.items.length > 0"><% subjquiz.items %></span>
+      	<span data-ng-if="subjquiz.subjquiz_items === '0'">No Items</span>
+      	<span data-ng-if="subjquiz.subjquiz_items !== '0'"><% subjquiz.subjquiz_items %></span>
       </td>
       <td>
       </td>
       <td>
-      	<span data-ng-hide="editMode"><% subjquiz.created_at | date:'EEE, MMM d, yyyy h:mm a' | cut:true:20:'...' %></span>
+      	<span><% subjquiz.created_at | date:'EEE, MMM d, yyyy h:mm a' | cut:true:20:'...' %></span>
       </td>
       <td>
-      	<span data-ng-hide="editMode"><% subjquiz.updated_at | date:'EEE, MMM d, yyyy h:mm a' | cut:true:20:'...' %></span>
+      	<span><% subjquiz.updated_at | date:'EEE, MMM d, yyyy h:mm a' | cut:true:20:'...' %></span>
       </td>
       <td>
       	<div class="button-bar right">

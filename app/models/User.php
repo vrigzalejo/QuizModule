@@ -10,6 +10,15 @@ class User extends \Cartalyst\Sentry\Users\Eloquent\User implements UserInterfac
 		return $this->hasOne('Student', 'user_id', 'id');
 	}
 
+	public function subjquiz() {
+		return $this->hasMany('Subjquiz');
+	}
+
+	public function question() {
+		return $this->hasManyThrough('Option', 'Question');
+	}
+
+
 	public static function boot() {
 		parent::boot();
 
